@@ -19,6 +19,7 @@ def MainMenu():
     print ('+','-'*55,'+')
     print ("1. Agregar paciente","2. Buscar paciente","3. Mostrar informacion de un paciente","4. Volver al menú príncipal",sep="\n")
     opc = int(input("> "))
+    
     if opc == 1:
         AddPaciente()
     elif opc == 2:

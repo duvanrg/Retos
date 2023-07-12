@@ -11,6 +11,7 @@ def LoadDataCitas(args):
         core.CrearData(args, diccCitas)
         return core.LoadData(args)
     
+    
 def MainMenu():
     os.system("clear")
     exit = False

@@ -7,14 +7,6 @@
             "Propietario": "Gepeto",
             "Tipo": "Gato",
             "Raza": "Ragdoll"
-        },
-        {
-            "Id": 2,
-            "Nombre": "Figaro",
-            "Edad": 5,
-            "Propietario": "Pinnocho",
-            "Tipo": "Gato",
-            "Raza": "Ragdoll"
         }
     ]
 }

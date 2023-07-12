@@ -6,6 +6,7 @@ import citas
 if __name__ == '__main__':
     opc = 0
     run = True
+    
     while run:    
         os.system('clear')
         print ('+','-'*55,'+')
