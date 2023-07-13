@@ -12,7 +12,7 @@ def LoadDataPacientes(args):
         return core.LoadData(args)
     
 def MainMenu():
-    os.system("clear")
+    os.system("cls")
     exit = False
     print ('+','-'*55,'+')
     print ('|{:^57}|'.format('MENU PACIENTES'))
@@ -24,47 +24,47 @@ def MainMenu():
         AddPaciente()
     elif opc == 2:
         datos = BuscarPaciente()
-        os.system("clear")
+        os.system("cls")
         print('+','-'*55,'+')
         print("|{:^57}|".format(datos))
         print('+','-'*55,'+')
     elif opc == 3:
         datos = MostrarPaciente()
         if (datos == False):
-            os.system("clear")
+            os.system("cls")
             print('+','-'*55,'+')
             print("|{:^57}|".format("Paciente no encontrado"))
             print('+','-'*55,'+')
         else:
-            os.system("clear")
+            os.system("cls")
             print('+','-'*45,'+')
             print("|{:^47}|".format("DATOS DEL PACIENTE"))
             print('+','-'*45,'+')
-            print("|{:^10}|{:^35}|".format('Id',datos["Id"]))
-            print('+','-'*44,'+')
-            print("|{:^10}|{:^35}|".format('Nombre',datos["Nombre"]))
-            print('+','-'*44,'+')
-            print("|{:^10}|{:^35}|".format('Edad',datos["Edad"]))
-            print('+','-'*44,'+')
-            print("|{:^10}|{:^35}|".format('Propietario',datos["Propietario"]))
-            print('+','-'*44,'+')
-            print("|{:^10}|{:^35}|".format('Tipo',datos["Tipo"]))
-            print('+','-'*44,'+')
-            print("|{:^10}|{:^35}|".format('Raza',datos["Raza"]))
-            print('+','-'*44,'+')
+            print("|{:^14}|{:^32}|".format('Id',datos["Id"]))
+            print('+','-'*45,'+')
+            print("|{:^14}|{:^32}|".format('Nombre',datos["Nombre"]))
+            print('+','-'*45,'+')
+            print("|{:^14}|{:^32}|".format('Edad',datos["Edad"]))
+            print('+','-'*45,'+')
+            print("|{:^14}|{:^32}|".format('Propietario',datos["Propietario"]))
+            print('+','-'*45,'+')
+            print("|{:^14}|{:^32}|".format('Tipo',datos["Tipo"]))
+            print('+','-'*45,'+')
+            print("|{:^14}|{:^32}|".format('Raza',datos["Raza"]))
+            print('+','-'*45,'+')
             
     elif opc == 4:
         exit = True
 
     if (not exit):
-        os.system('sleep 3') 
+        os.system('pause') 
         MainMenu()
 
 def AddPaciente():
-    os.system("clear")
+    os.system("cls")
     diccPaci = LoadDataPacientes("pacientes.json")
     select = []
-    tipos = ["Perro","Gato","Reptil","Ave"]
+    especies = ["Perro","Gato","Reptil","Ave"]
     razas = {"Perro":["Golden","Pastor Aleman","Chiguagua","Labrador","Bóxer","Pug","Retriever"],"Gato":["Persa","Abisinio","Siamés","British","Ragdoll","Manx"],"Reptil":["Iguana","Gecko","Camaleón","Tortuga","Serpiente"],"Ave":["Periquito","Canario","Cotorra","Cacatúa","Loro","faisanes","Agapornis"]}
     autoId = 0
     for i, item in enumerate(diccPaci["data"]):
@@ -79,7 +79,7 @@ def AddPaciente():
     edad = int(input("Edad: "))
     propietario = str(input("Nombre Propietario: ")).title()
     print("seleccione el tipo del paciente")
-    for i, item in enumerate(tipos):
+    for i, item in enumerate(especies):
         print(f"{i+1}. {item}")
         select.append(item)
     tipo = select[int(input("> "))-1]
@@ -102,21 +102,32 @@ def AddPaciente():
 
 
 def BuscarPaciente():
-    os.system("clear")
+    os.system("cls")
     diccPaci = LoadDataPacientes("pacientes.json")
-    point = []
+    especies = ["Perro","Gato","Reptil","Ave"]
+    save = []
+    select = []
     print('+','-'*55,'+')
     print("|{:^57}|".format('BUSCADOR DE PACIENTES'))
     print('+','-'*55,'+')
-    paciSearch = input("Ingrese el nombre del paciente a buscar: ")
+    print("Seleccione el dato por el cual buscar","1. Nombre","2. especie")
+    if input("> ") == 1:
+        paciSearch = input("Ingrese el nombre del paciente a buscar: ")
+    else:
+        print("Seleccione la especia a buscar")
+        for i, item in enumerate(especies):
+            print(f"{i+1}. {item}")
+            select.append(item)
+        paciSearch = select[int(input(">"))-1]
+
     for i, item in enumerate(diccPaci["data"]):
-        if paciSearch in item["Nombre"]:
-            point.append(item)
-    if (len(point)==1):
+        if paciSearch in item["Nombre"] or paciSearch in item["Tipo"]:
+            save.append(item)
+    if (len(save)==1):
         return ('PACIENTE ENCONTRADO')
-    elif (len(point)>1):
+    elif (len(save)>1):
         paciSearch = input("Ingrese el nombre del propietario del paciente: ")
-        for item in point:
+        for item in save:
             if paciSearch in item["Propietario"]:
                 return ('PACIENTE ENCONTRADO')
         return('PACIENTE NO ENCONTRADO')
@@ -126,25 +137,24 @@ def BuscarPaciente():
         
 
 def MostrarPaciente():
-    os.system("clear")
+    os.system("cls")
     diccPaci = LoadDataPacientes("pacientes.json")
-    point = []
+    save = []
     print('+','-'*55,'+')
     print("|{:^57}|".format('BUSCADOR INFORMACION DE PACIENTES'))
     print('+','-'*55,'+')
     paciSearch = input("Ingrese el nombre del paciente a buscar: ")
     for i, item in enumerate(diccPaci["data"]):
         if paciSearch in item["Nombre"]:
-            point.append(item)
+            save.append(item)
 
-    if (len(point)==1):
-        return point[0]
-    elif (len(point)>1):
+    if (len(save)==1):
+        return save[0]
+    elif (len(save)>1):
         paciSearch = input("Ingrese el nombre del propietario del paciente: ")
-        for i, item in enumerate(point):
+        for i, item in enumerate(save):
             if paciSearch in item["Propietario"]:
-                return point[i]
+                return save[i]
         return False
-        
     else:
         return False

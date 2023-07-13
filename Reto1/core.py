@@ -22,7 +22,7 @@ def EditarData (*args):
 def LoadData(FileName):
     if (CheckData(FileName) == True):
         with open('data/'+FileName, 'r') as readFile:
-           dicc = json.load(readFile)
+            dicc = json.load(readFile)
         return dicc
 
 def CheckData (Filename):

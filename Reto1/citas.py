@@ -13,7 +13,7 @@ def LoadDataCitas(args):
     
     
 def MainMenu():
-    os.system("clear")
+    os.system("cls")
     exit = False
     diccPaci = LoadDataCitas("pacientes.json")
     print ('+','-'*55,'+')
