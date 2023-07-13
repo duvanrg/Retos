@@ -3,7 +3,7 @@ import core
 
 diccVet = {"data": []}
 
-def LoadDataVet(args):
+def LoadDataVeterinarios(args):
     global diccVet
     if core.CheckData(args):
         return core.LoadData(args)
@@ -12,9 +12,9 @@ def LoadDataVet(args):
         return core.LoadData(args)
     
 def MainMenu():
-    os.system("cls")
+    os.system("clear")
     exit = False
-    diccPaci = LoadDataVet("veterinarios.json")
+    diccPaci = LoadDataVeterinarios("veterinarios.json")
     print ('+','-'*55,'+')
     print ('|{:^57}|'.format('MENU VETERINARIOS'))
     print ('+','-'*55,'+')
@@ -25,30 +25,46 @@ def MainMenu():
         AddVeterinario()
     elif opc == 2:
         datos = BuscarVeterinario()
-        os.system("cls")
-        print('+','-'*55,'+')
-        print("|{:^57}|".format(datos))
-        print('+','-'*55,'+')
+        os.system("clear")
+        if (datos == False):
+            print('+','-'*55,'+')
+            print("|{:^57}|".format("VETERINARIO NO ENCONTRADO"))
+            print('+','-'*55,'+')
+        else:
+            print('+','-'*35,'+')
+            print("|{:^37}|".format(datos[0]))
+            print('+','-'*35,'+')
+            print("|{:^15}:{:^21}|".format(datos[2],datos[3]))
+            print('+','-'*35,'+')
+            for i, item in enumerate(datos[1]):
+                print("|{:^4}|{:^32}|".format("Id",item["Id"]))
+                print('+','-'*35,'+')
     elif opc == 3:
-        get = MostrarVeterinario()  
-        print('+','-'*63,'+')
-        print("|{:^65}|".format('RESULTADOS ENCONTRADOS'))
-        print("|{:^4}|{:^20}|{:^15}|{:^11}|{:^11}|".format('Id','Nombre','Titulo', 'Telefono', 'Registro'))
-        print('+','-'*63,'+')
-        for i, item in enumerate(get):
-            print("|{:^4}|{:^20}|{:^15}|{:^11}|{:^11}|".format(item['Id'],item['Nombre'],item['Titulo'], item['Telefono'], item['Registro']))
-            print('+','-'*63,'+')       
+        datos = MostrarVeterinario()
+        os.system("clear")
+        if (datos == False):
+            print('+','-'*55,'+')
+            print("|{:^57}|".format("PACIENTE NO ENCONTRADO"))
+            print('+','-'*55,'+')
+        else:
+            print('+','-'*63,'+')
+            print("|{:^65}|".format('RESULTADOS ENCONTRADOS'))
+            print('+','-'*63,'+')
+            print("|{:^4}|{:^20}|{:^15}|{:^11}|{:^11}|".format('Id','Nombre','Titulo', 'Telefono', 'Registro'))
+            print('+','-'*63,'+')
+            for i, item in enumerate(datos):
+                print("|{:^4}|{:^20}|{:^15}|{:^11}|{:^11}|".format(item['Id'],item['Nombre'],item['Titulo'], item['Telefono'], item['Registro']))
+                print('+','-'*63,'+')       
     elif opc == 4:
         exit = True
 
     if (not exit):
-        os.system('pause') 
+        os.system('sleep 3') 
         MainMenu()
 
 def AddVeterinario():
-    os.system("cls")
+    os.system("clear")
     select = []
-    diccPaci = LoadDataVet("veterinarios.json")
     titulos = ["Ortopedista","Cirujano","Oncólogo","Oftalmólogo","Fisioterapeuta","Dermatólogo"]
     print ('+','-'*55,'+')
     print ('|{:^57}|'.format('AGREGAR VETERINARIO'))
@@ -62,7 +78,7 @@ def AddVeterinario():
         select.append(item)
     titulo = select[int(input("> "))-1]
     telefono = input("Telefono: ")
-    fechaReg = input("Fecha Registro : ")
+    fechaReg = input("Fecha Registro (dd/mm/aaaa): ")
 
     dataVet = {
         "Id": idV, 
@@ -74,34 +90,52 @@ def AddVeterinario():
     core.CrearData("veterinarios.json",dataVet)
 
 def BuscarVeterinario():
-    os.system("cls")
-    diccVet = LoadDataVet("veterinarios.json")
+    os.system("clear")
+    diccVet = LoadDataVeterinarios("veterinarios.json")
     save = []
+    select = []
+    titulos = ["Ortopedista","Cirujano","Oncólogo","Oftalmólogo","Fisioterapeuta","Dermatólogo"]
     print('+','-'*55,'+')
     print("|{:^57}|".format('BUSCADOR DE VETERINARIO'))
     print('+','-'*55,'+')
-
-    vetSearch = input("Ingrese el nombre o especialidad del veterinario a buscar: ")
+    print("Seleccione el dato por el cual buscar","1. Nombre","2. Especialidad")
+    opc = int(input("> "))
+    if opc == 1:
+        vetSearch = input("Ingrese el nombre del veterinario a buscar: ")
+        opc = "Nombre"
+    elif opc == 2:
+        print("Seleccione la especialidad")    
+        for i, item in enumerate(titulos):
+            print(f"{i+1}. {item}")
+            select.append(item)
+        vetSearch = select[int(input(">"))-1]
+        opc = "Especialidad"
+    else:
+        print("seleccion no valida")
+        return False
+    
     for i, item in enumerate(diccVet["data"]):
         if vetSearch in item["Nombre"] or vetSearch in item["Titulo"]:
             save.append(item)
-    if (len(save)>=1):
-        return ('VETERINARIO ENCONTRADO')
+
+    if (len(save)==1):
+        return (['VETERINARIO ENCONTRADO',save,opc,vetSearch])
+    elif (len(save)>1):
+        return ([f'{len(save)} VETERINARIOS ENCONTRADOS',save,opc,vetSearch])
     else:
-        return('VETERINARIO NO ENCONTRADO')
+        return False
 
 def MostrarVeterinario():
-    diccVet = LoadDataVet("pacientes.json")
+    diccVet = LoadDataVeterinarios("veterinarios.json")
     save = []
     print('+','-'*55,'+')
-    print("|{:^57}|".format('BUSCADOR INFORMACION DE PACIENTES'))
+    print("|{:^57}|".format('BUSCADOR INFORMACION DE VETERINARIOS'))
     print('+','-'*55,'+')
-    vetSearch = input("Ingrese el nombre del paciente a buscar: ")
+    vetSearch = int(input("Ingrese el id del veterinario a buscar: "))
     for i, item in enumerate(diccVet["data"]):
-        if vetSearch in item["Nombre"] or vetSearch in item["Titulo"]:
+        if vetSearch == item["Id"]:
             save.append(item)
-
-    if (len(save)>1):
-        return save  
+    if (len(save)==1):
+        return save
     else:
         return False

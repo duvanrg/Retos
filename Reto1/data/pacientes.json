@@ -5,7 +5,23 @@
             "Nombre": "Figaro",
             "Edad": 3,
             "Propietario": "Gepeto",
-            "Tipo": "Gato",
+            "Especie": "Gato",
+            "Raza": "Ragdoll"
+        },
+        {
+            "Id": 2,
+            "Nombre": "Figaro",
+            "Edad": 3,
+            "Propietario": "Gepeto",
+            "Especie": "Ave",
+            "Raza": "Ragdoll"
+        },
+        {
+            "Id": 3,
+            "Nombre": "Tom",
+            "Edad": 7,
+            "Propietario": "Jerry",
+            "Especie": "Gato",
             "Raza": "Ragdoll"
         }
     ]
