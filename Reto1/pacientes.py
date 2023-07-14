@@ -12,7 +12,7 @@ def LoadDataPacientes(args):
         return core.LoadData(args)
     
 def MainMenu():
-    os.system("clear")
+    os.system("cls")
     exit = False
     print ('+','-'*55,'+')
     print ('|{:^57}|'.format('MENU PACIENTES'))
@@ -20,11 +20,12 @@ def MainMenu():
     print ("1. Agregar paciente","2. Buscar paciente","3. Mostrar informacion de un paciente","4. Volver al menú príncipal",sep="\n")
     opc = int(input("> "))
     
+    os.system("cls")
     if opc == 1:
         AddPaciente()
     elif opc == 2:
         datos = BuscarPaciente()
-        os.system("clear")
+        os.system("cls")
         if (datos == False):
             print('+','-'*55,'+')
             print("|{:^57}|".format("PACIENTE NO ENCONTRADO"))
@@ -40,7 +41,7 @@ def MainMenu():
                 print('+','-'*30,'+')
     elif opc == 3:
         datos = MostrarPaciente()
-        os.system("clear")
+        os.system("cls")
         if (datos == False):
             print('+','-'*55,'+')
             print("|{:^57}|".format("PACIENTE NO ENCONTRADO"))
@@ -65,11 +66,10 @@ def MainMenu():
         exit = True
 
     if (not exit):
-        os.system('sleep 3') 
+        os.system('pause') 
         MainMenu()
 
 def AddPaciente():
-    os.system("clear")
     diccPaci = LoadDataPacientes("pacientes.json")
     select = []
     especies = ["Perro","Gato","Reptil","Ave"]
@@ -109,7 +109,6 @@ def AddPaciente():
     core.CrearData("pacientes.json", data)
 
 def BuscarPaciente():
-    os.system("clear")
     diccPaci = LoadDataPacientes("pacientes.json")
     especies = ["Perro","Gato","Reptil","Ave"]
     save = []
@@ -117,7 +116,7 @@ def BuscarPaciente():
     print('+','-'*55,'+')
     print("|{:^57}|".format('BUSCADOR DE PACIENTES'))
     print('+','-'*55,'+')
-    print("Seleccione el dato por el cual buscar","1. Nombre","2. especie")
+    print("Seleccione el dato por el cual buscar","1. Nombre","2. especie",sep=("\n"))
     opc = int(input("> "))
     if  opc == 1:
         paciSearch = input("Ingrese el nombre del paciente a buscar: ")
@@ -145,7 +144,6 @@ def BuscarPaciente():
         return False      
 
 def MostrarPaciente():
-    os.system("clear")
     diccPaci = LoadDataPacientes("pacientes.json")
     save = []
     print('+','-'*55,'+')

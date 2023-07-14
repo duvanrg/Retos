@@ -12,7 +12,7 @@ def LoadDataVeterinarios(args):
         return core.LoadData(args)
     
 def MainMenu():
-    os.system("clear")
+    os.system("cls")
     exit = False
     diccPaci = LoadDataVeterinarios("veterinarios.json")
     print ('+','-'*55,'+')
@@ -25,7 +25,7 @@ def MainMenu():
         AddVeterinario()
     elif opc == 2:
         datos = BuscarVeterinario()
-        os.system("clear")
+        os.system("cls")
         if (datos == False):
             print('+','-'*55,'+')
             print("|{:^57}|".format("VETERINARIO NO ENCONTRADO"))
@@ -41,7 +41,7 @@ def MainMenu():
                 print('+','-'*35,'+')
     elif opc == 3:
         datos = MostrarVeterinario()
-        os.system("clear")
+        os.system("cls")
         if (datos == False):
             print('+','-'*55,'+')
             print("|{:^57}|".format("PACIENTE NO ENCONTRADO"))
@@ -59,11 +59,10 @@ def MainMenu():
         exit = True
 
     if (not exit):
-        os.system('sleep 3') 
+        os.system('pause') 
         MainMenu()
 
 def AddVeterinario():
-    os.system("clear")
     select = []
     titulos = ["Ortopedista","Cirujano","Oncólogo","Oftalmólogo","Fisioterapeuta","Dermatólogo"]
     print ('+','-'*55,'+')
@@ -90,7 +89,6 @@ def AddVeterinario():
     core.CrearData("veterinarios.json",dataVet)
 
 def BuscarVeterinario():
-    os.system("clear")
     diccVet = LoadDataVeterinarios("veterinarios.json")
     save = []
     select = []
@@ -98,7 +96,7 @@ def BuscarVeterinario():
     print('+','-'*55,'+')
     print("|{:^57}|".format('BUSCADOR DE VETERINARIO'))
     print('+','-'*55,'+')
-    print("Seleccione el dato por el cual buscar","1. Nombre","2. Especialidad")
+    print("Seleccione el dato por el cual buscar","1. Nombre","2. Especialidad",sep=("\n"))
     opc = int(input("> "))
     if opc == 1:
         vetSearch = input("Ingrese el nombre del veterinario a buscar: ")

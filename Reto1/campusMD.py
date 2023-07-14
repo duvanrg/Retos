@@ -8,7 +8,7 @@ if __name__ == '__main__':
     run = True
     
     while run:    
-            os.system('clear')
+            os.system('cls')
             print ('+','-'*55,'+')
             print ('|{:^57}|'.format('CENTRO VETERINARIO CAMPUSMD'))
             print ('+','-'*55,'+')
@@ -27,4 +27,4 @@ if __name__ == '__main__':
                 print("Opción no valida")
         #except Exception as e:
         #    print("Se ha producido un Error : \n",e)
-            os.system("sleep 3")
+            os.system("pause")
