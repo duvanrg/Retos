@@ -15,7 +15,7 @@ def LoadDataCitas(args):
     
     
 def MainMenu():
-    os.system("cls")
+    os.system("clear")
     exit = False
     diccCitas = LoadDataCitas("citas.json")
     print ('+','-'*55,'+')
@@ -23,7 +23,7 @@ def MainMenu():
     print ('+','-'*55,'+')
     print ("1. Crear Cita","2. Cancelar cita","3. Consultar cita","4. Volver al menú príncipal",sep="\n")
     opc = int(input("> "))
-    os.system("cls")
+    os.system("clear")
     if opc == 1:
         AddCita()
     elif opc == 2:
@@ -103,7 +103,7 @@ def CancelarCita():
     citaSearch = int(input("Ingrese el Id de la cita a cancelar: "))
     for i, item in enumerate(diccCitas["data"]):
         if item["Id"] == citaSearch:
-            os.system("cls")
+            os.system("clear")
             if item["Estado"] == "Cancelada":
                 print('+','-'*71,'+')
                 print("|{:^73}|".format('CITA YA CANCELADA'))

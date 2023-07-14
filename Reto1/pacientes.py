@@ -1,5 +1,6 @@
 import os
 import core
+import citas
 
 diccPaci = {"data": []}
 
@@ -12,7 +13,7 @@ def LoadDataPacientes(args):
         return core.LoadData(args)
     
 def MainMenu():
-    os.system("cls")
+    os.system("clear")
     exit = False
     print ('+','-'*55,'+')
     print ('|{:^57}|'.format('MENU PACIENTES'))
@@ -20,12 +21,12 @@ def MainMenu():
     print ("1. Agregar paciente","2. Buscar paciente","3. Mostrar informacion de un paciente","4. Volver al menú príncipal",sep="\n")
     opc = int(input("> "))
     
-    os.system("cls")
+    os.system("clear")
     if opc == 1:
         AddPaciente()
     elif opc == 2:
         datos = BuscarPaciente()
-        os.system("cls")
+        os.system("clear")
         if (datos == False):
             print('+','-'*55,'+')
             print("|{:^57}|".format("PACIENTE NO ENCONTRADO"))
@@ -41,32 +42,47 @@ def MainMenu():
                 print('+','-'*30,'+')
     elif opc == 3:
         datos = MostrarPaciente()
-        os.system("cls")
+        band = 1
+        os.system("clear")
         if (datos == False):
             print('+','-'*55,'+')
             print("|{:^57}|".format("PACIENTE NO ENCONTRADO"))
             print('+','-'*55,'+')
         else:
+            paci = datos[0]
+            histo = datos[1]
             print('+','-'*45,'+')
             print("|{:^47}|".format("DATOS DEL PACIENTE"))
             print('+','-'*45,'+')
-            print("|{:^14}|{:^32}|".format('Id',datos["Id"]))
+            print("|{:^14}|{:^32}|".format('Id',paci["Id"]))
             print('+','-'*45,'+')
-            print("|{:^14}|{:^32}|".format('Nombre',datos["Nombre"]))
+            print("|{:^14}|{:^32}|".format('Nombre',paci["Nombre"]))
             print('+','-'*45,'+')
-            print("|{:^14}|{:^32}|".format('Edad',datos["Edad"]))
+            print("|{:^14}|{:^32}|".format('Edad',paci["Edad"]))
             print('+','-'*45,'+')
-            print("|{:^14}|{:^32}|".format('Propietario',datos["Propietario"]))
+            print("|{:^14}|{:^32}|".format('Propietario',paci["Propietario"]))
             print('+','-'*45,'+')
-            print("|{:^14}|{:^32}|".format('Especie',datos["Especie"]))
+            print("|{:^14}|{:^32}|".format('Especie',paci["Especie"]))
             print('+','-'*45,'+')
-            print("|{:^14}|{:^32}|".format('Raza',datos["Raza"]))
-            print('+','-'*45,'+')       
+            print("|{:^14}|{:^32}|".format('Raza',paci["Raza"]))
+            print('+','-'*45,'+\n')  
+            for i, item in enumerate(histo):
+                if band == 1:
+                    print("+","-"*71,'+')
+                    print("|{:^73}|".format('HISTORIAL MEDICO'))
+                    print('+','-'*71,'+')
+                    print("|{:^4}|{:^15}|{:^8}|{:^11}|{:^22}|{:^8}|".format('Id','Fecha','Hora', 'id Vet', 'NombreVet','IdPaci'))
+                    print('+','-'*71,'+')
+                    band = 0
+                print("|{:^4}|{:^15}|{:^8}|{:^11}|{:^22}|{:^8}|".format(item['Id'],item['Fecha'],item['Hora'], item['IdVet'], item['NombreVet'], item['IdPaci']))
+                print('+','-'*71,'+')
+                valid = True
+            input()
     elif opc == 4:
         exit = True
 
     if (not exit):
-        os.system('pause') 
+        os.system('sleep 3') 
         MainMenu()
 
 def AddPaciente():
@@ -145,16 +161,23 @@ def BuscarPaciente():
 
 def MostrarPaciente():
     diccPaci = LoadDataPacientes("pacientes.json")
+    diccCitas = citas.LoadDataCitas("citas.json")
     save = []
+    historial = []
+    
     print('+','-'*55,'+')
     print("|{:^57}|".format('BUSCADOR INFORMACION DE PACIENTES'))
     print('+','-'*55,'+')
-    paciSearch = int(input("Ingrese el id del paciente a buscar: "))
+    paciSearch = int(input("Ingrese el Id del paciente a buscar: "))
     for i, item in enumerate(diccPaci["data"]):
         if paciSearch == item["Id"]:
             save.append(item)
-
-    if (len(save)==1):
-        return save[0]
+            for i, cita in enumerate(diccCitas["data"]):
+                if item["Id"] == cita["IdPaci"]:
+                    historial.append(cita)
+    save.append(historial)
+    if (len(save)>=1):
+        print (save)
+        return save
     else:
         return False

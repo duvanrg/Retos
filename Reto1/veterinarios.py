@@ -1,5 +1,6 @@
 import os
 import core
+import citas
 
 diccVet = {"data": []}
 
@@ -12,7 +13,7 @@ def LoadDataVeterinarios(args):
         return core.LoadData(args)
     
 def MainMenu():
-    os.system("cls")
+    os.system("clear")
     exit = False
     diccPaci = LoadDataVeterinarios("veterinarios.json")
     print ('+','-'*55,'+')
@@ -25,7 +26,7 @@ def MainMenu():
         AddVeterinario()
     elif opc == 2:
         datos = BuscarVeterinario()
-        os.system("cls")
+        os.system("clear")
         if (datos == False):
             print('+','-'*55,'+')
             print("|{:^57}|".format("VETERINARIO NO ENCONTRADO"))
@@ -41,25 +42,37 @@ def MainMenu():
                 print('+','-'*35,'+')
     elif opc == 3:
         datos = MostrarVeterinario()
-        os.system("cls")
+        band = 1
+        os.system("clear")
         if (datos == False):
             print('+','-'*55,'+')
             print("|{:^57}|".format("PACIENTE NO ENCONTRADO"))
             print('+','-'*55,'+')
         else:
+            vet = datos[0]
+            horario = datos[1]
             print('+','-'*63,'+')
             print("|{:^65}|".format('RESULTADOS ENCONTRADOS'))
             print('+','-'*63,'+')
             print("|{:^4}|{:^20}|{:^15}|{:^11}|{:^11}|".format('Id','Nombre','Titulo', 'Telefono', 'Registro'))
             print('+','-'*63,'+')
-            for i, item in enumerate(datos):
-                print("|{:^4}|{:^20}|{:^15}|{:^11}|{:^11}|".format(item['Id'],item['Nombre'],item['Titulo'], item['Telefono'], item['Registro']))
-                print('+','-'*63,'+')       
+            print("|{:^4}|{:^20}|{:^15}|{:^11}|{:^11}|".format(vet['Id'],vet['Nombre'],vet['Titulo'], vet['Telefono'], vet['Registro']))
+            print('+','-'*63,'+')
+            for i,item in enumerate(horario):
+                if band == 1:
+                    print("+","-"*47,'+')
+                    print("|{:^49}|".format('HORARIO VETERINARIO'))
+                    print('+','-'*47,'+')
+                    print("|{:^6}|{:^20}|{:^10}|{:^10}|".format('Id','Fecha','Hora','IdPaci'))
+                    print('+','-'*47,'+')
+                    band = 0
+                print("|{:^6}|{:^20}|{:^10}|{:^10}|".format(item['Id'],item['Fecha'],item['Hora'], item['IdPaci']))
+                print('+','-'*47,'+')   
     elif opc == 4:
         exit = True
-
+    
     if (not exit):
-        os.system('pause') 
+        os.system('sleep 3') 
         MainMenu()
 
 def AddVeterinario():
@@ -125,7 +138,9 @@ def BuscarVeterinario():
 
 def MostrarVeterinario():
     diccVet = LoadDataVeterinarios("veterinarios.json")
+    diccCitas = citas.LoadDataCitas("citas.json")
     save = []
+    horario = []
     print('+','-'*55,'+')
     print("|{:^57}|".format('BUSCADOR INFORMACION DE VETERINARIOS'))
     print('+','-'*55,'+')
@@ -133,7 +148,11 @@ def MostrarVeterinario():
     for i, item in enumerate(diccVet["data"]):
         if vetSearch == item["Id"]:
             save.append(item)
-    if (len(save)==1):
+            for i, cita in enumerate(diccCitas["data"]):
+                if item["Id"] == cita["IdVet"]:
+                    horario.append(cita)
+    save.append(horario)
+    if (len(save)>=1):
         return save
     else:
         return False
